@@ -1,0 +1,10 @@
+# Dependencies
+/node_modules/
+
+# Output
+/dist/
+
+# Configs
+/.env
+/docker-compose.dev.yml
+/docker-compose.local.yml

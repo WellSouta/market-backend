@@ -8,10 +8,8 @@ import databaseConfiguration, {
 } from './common/configuration/database.configuration'
 
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions.js'
 import { ApiModule } from './api/api.module'
 import { ConfigurationType } from './common/constants/configurations'
-import { dataSource } from './database/data-source'
 
 @Module({
   imports: [
@@ -33,14 +31,6 @@ import { dataSource } from './database/data-source'
           password: config.password,
           autoLoadEntities: true
         }
-      },
-      async dataSourceFactory(options) {
-        return dataSource
-          .setOptions({
-            ...(dataSource.options as PostgresConnectionOptions),
-            ...(options as PostgresConnectionOptions)
-          })
-          .initialize()
       }
     }),
     ApiModule

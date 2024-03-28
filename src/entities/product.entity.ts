@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
-import { IMultiLanguageField } from '../../common/interfaces/multi-language-field.interface'
+import { IMultiLanguageField } from '../common/interfaces/multi-language-field.interface'
 import { Category } from './category.entity'
 import { EntityBase } from './common/entity-base'
 

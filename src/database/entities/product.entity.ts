@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
-import { EntityBase } from '../../../common/entities/entity-base'
-import { IMultiLanguageField } from '../../../common/interfaces/multi-language-field.interface'
-import { Category } from '../../categories/entities/category.entity'
+import { IMultiLanguageField } from '../../common/interfaces/multi-language-field.interface'
+import { Category } from './category.entity'
+import { EntityBase } from './common/entity-base'
 
 @Entity('products')
 export class Product extends EntityBase {

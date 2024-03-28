@@ -8,10 +8,10 @@ export abstract class EntityBase {
   @CreateDateColumn({
     type: 'timestamptz'
   })
-  public createdAt = new Date()
+  public createdAt: Date = new Date()
 
   @UpdateDateColumn({
     type: 'timestamptz'
   })
-  public updatedAt = new Date()
+  public updatedAt: Date = new Date()
 }

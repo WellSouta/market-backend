@@ -1,13 +1,10 @@
 import { Exclude } from 'class-transformer'
 import { Column, Entity } from 'typeorm'
-import { EntityBase } from '../../../common/entities/entity-base'
+import { EntityBase } from './common/entity-base'
 
-export class UserPersonal {
-  @Column('varchar')
-  public firstName!: string
-
-  @Column('varchar')
-  public lastName!: string
+export interface IUserPersonal {
+  firstName: string
+  lastName: string
 }
 
 @Entity('users')
@@ -21,8 +18,8 @@ export class User extends EntityBase {
   @Exclude()
   public password!: string
 
-  @Column(() => UserPersonal)
-  public personal!: UserPersonal
+  @Column('jsonb')
+  public personal!: IUserPersonal
 
   @Column('varchar')
   public phoneNumber!: string

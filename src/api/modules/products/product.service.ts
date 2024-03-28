@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm'
-import { Product } from './entities/product.entity'
+
+import { Product } from '../../../database/entities/product.entity'
 
 interface IConditions {
   id?: string

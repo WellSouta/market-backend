@@ -1,6 +1,7 @@
-import { Controller, Get, NotFoundException } from '@nestjs/common'
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common'
+
+import { Category } from '../../../database/entities/category.entity'
 import { CategoryService } from './category.service'
-import { Category } from './entities/category.entity'
 
 @Controller('categories')
 export class CategoryController {
@@ -12,7 +13,7 @@ export class CategoryController {
   }
 
   @Get('/:id')
-  public async get(id: string): Promise<Category> {
+  public async get(@Param('id') id: string): Promise<Category> {
     const category = await this.categoryService.get({
       id
     })

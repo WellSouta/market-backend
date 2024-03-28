@@ -4,8 +4,8 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { AppModule } from './app.module'
+import { IAppConfiguration } from './common/configuration/app.configuration'
 import { ConfigurationType } from './common/constants/configurations'
-import { IAppConfiguration } from './core/configuration/app.configuration'
 
 async function bootstrap(): Promise<INestApplication> {
   const app = await NestFactory.create(AppModule)

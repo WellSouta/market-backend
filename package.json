@@ -13,8 +13,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:cli": "typeorm -d dist/core/database/data-source.js",
-    "db:cli:dev": "typeorm-ts-node-commonjs -d src/core/database/data-source.ts"
+    "db:cli": "node -r dotenv/config ./node_modules/typeorm/cli.js -d dist/database/data-source.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

@@ -1,35 +1,36 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm'
-import { User } from './entities/user.entity'
+
+import { Category } from '../../../database/entities/category.entity'
 
 interface IConditions {
   id?: string
-  conditions?: FindOptionsWhere<User>
+  conditions?: FindOptionsWhere<Category>
 }
 
-interface IGetUserListParams extends IConditions {
-  opts?: FindManyOptions<User>
+interface IGetCategoryListParams extends IConditions {
+  opts?: FindManyOptions<Category>
 }
 
-interface IGetUserParams extends IConditions {
-  opts?: FindOneOptions<User>
+interface IGetCategoryParams extends IConditions {
+  opts?: FindOneOptions<Category>
 }
 
-interface IGetUserListWithCountResult {
-  items: User[]
+interface IGetCategoryListWithCountResult {
+  items: Category[]
   total: number
 }
 
 @Injectable()
-export class UserService {
-  public constructor(@InjectRepository(User) private readonly repo: Repository<User>) {}
+export class CategoryService {
+  public constructor(@InjectRepository(Category) private readonly repo: Repository<Category>) {}
 
   public getRepo() {
     return this.repo
   }
 
-  public async get(params: IGetUserParams = {}): Promise<User | void> {
+  public async get(params: IGetCategoryParams = {}): Promise<Category | void> {
     const item = await this.repo.findOne({
       where: this.makeConditions(params),
       ...params.opts
@@ -38,7 +39,7 @@ export class UserService {
     return item ?? undefined
   }
 
-  public async getList(params: IGetUserListParams = {}): Promise<User[]> {
+  public async getList(params: IGetCategoryListParams = {}): Promise<Category[]> {
     return this.repo.find({
       where: this.makeConditions(params),
       ...params.opts
@@ -46,8 +47,8 @@ export class UserService {
   }
 
   public async getListWithCount(
-    params: IGetUserListParams = {}
-  ): Promise<IGetUserListWithCountResult> {
+    params: IGetCategoryListParams = {}
+  ): Promise<IGetCategoryListWithCountResult> {
     const [items, total] = await this.repo.findAndCount({
       where: this.makeConditions(params),
       ...params.opts
@@ -59,7 +60,7 @@ export class UserService {
     }
   }
 
-  private makeConditions(params: IConditions): FindOptionsWhere<User> {
+  private makeConditions(params: IConditions): FindOptionsWhere<Category> {
     const conditions = params.conditions ?? {}
 
     if (typeof params.id !== 'undefined') {

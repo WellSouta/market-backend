@@ -1,5 +1,5 @@
 export enum ConfigurationType {
-  App = 'APP',
-  Auth = 'AUTH',
-  Database = 'DATABASE'
+  App = 'app',
+  Auth = 'auth',
+  Database = 'database'
 }

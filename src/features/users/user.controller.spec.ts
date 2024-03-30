@@ -1,6 +1,7 @@
 import { NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
+
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
 

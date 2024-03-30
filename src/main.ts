@@ -28,6 +28,12 @@ async function setupSwagger(app: INestApplication) {
     .setTitle('Marketplace')
     .setVersion('0.1')
     .setLicense('COMMERCIAL', '')
+    .addBearerAuth({
+      type: 'http',
+      name: 'Authorization',
+      'x-tokenName': 'Bearer',
+      bearerFormat: 'JWT'
+    })
     .build()
 
   const document = SwaggerModule.createDocument(app, config)

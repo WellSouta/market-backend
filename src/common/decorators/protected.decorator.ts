@@ -1,7 +1,7 @@
 import { SetMetadata } from '@nestjs/common'
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger'
 
-import { DecoratorToken } from '../constants/decorators'
+import { DecoratorKey } from '../constants/decorators'
 import { Permission } from '../constants/permissions'
 
 /**
@@ -13,7 +13,7 @@ import { Permission } from '../constants/permissions'
 export function Protected(...permissions: Permission[]): ClassDecorator & MethodDecorator {
   // @ts-expect-error - I do not want to spend time type wrangling and gymnastics needed to please the TS compiler.
   return (target, propertyKey, descriptor) => {
-    SetMetadata(DecoratorToken.Protected, permissions)(target, propertyKey, descriptor)
+    SetMetadata(DecoratorKey.Protected, permissions)(target, propertyKey, descriptor)
     ApiBearerAuth()(target, propertyKey, descriptor)
 
     // If the decorator is used on a method, add ApiResponse for 401 and 403 statuses.

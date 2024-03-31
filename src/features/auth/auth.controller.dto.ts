@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 
 import { IsPhoneNumber, IsString } from 'class-validator'
+import { Permission } from '../../common/constants/permissions'
 import { IAuthData } from '../../common/interfaces/auth-data.interface'
 import { User } from '../../entities/user.entity'
 
@@ -16,6 +17,12 @@ export class AuthResponseDto implements IAuthData {
     description: 'User data'
   })
   public user!: User
+
+  @ApiProperty({
+    type: 'array',
+    enum: Permission
+  })
+  public permissions!: Permission[]
 }
 
 export class AuthLoginRequestDto {

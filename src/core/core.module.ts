@@ -10,7 +10,9 @@ import databaseConfiguration, {
 } from '../common/configuration/database.configuration'
 import { ConfigurationType } from '../common/constants/configurations'
 import { ProviderType } from '../common/constants/providers'
-import { TransformToPlainInterceptor } from './interceptors/transform-to-plain.interceptor'
+import { InstanceToPlainInterceptor } from './interceptors/instance-to-plain.interceptor'
+import { PlainToInstancePipe } from './pipes/plain-to-instance.pipe'
+import { ValidationPipe } from './pipes/validation.pipe'
 
 @Global()
 @Module({
@@ -37,6 +39,10 @@ import { TransformToPlainInterceptor } from './interceptors/transform-to-plain.i
       }
     })
   ],
-  providers: [{ provide: ProviderType.AppInterceptor, useClass: TransformToPlainInterceptor }]
+  providers: [
+    { provide: ProviderType.AppPipe, useClass: PlainToInstancePipe },
+    { provide: ProviderType.AppPipe, useClass: ValidationPipe },
+    { provide: ProviderType.AppInterceptor, useClass: InstanceToPlainInterceptor }
+  ]
 })
 export class CoreModule {}

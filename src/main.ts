@@ -8,7 +8,10 @@ import { IAppConfiguration } from './common/configuration/app.configuration'
 import { ConfigurationType } from './common/constants/configurations'
 
 async function bootstrap(): Promise<INestApplication> {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, {
+    logger: ['debug', 'verbose', 'log', 'warn', 'error', 'fatal']
+  })
+
   const configService = app.get(ConfigService)
   const appConfig = configService.get<IAppConfiguration>(ConfigurationType.App)!
 

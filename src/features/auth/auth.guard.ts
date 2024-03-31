@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 
-import { DecoratorToken } from '../../common/constants/decorators'
+import { DecoratorKey } from '../../common/constants/decorators'
 import { Permission } from '../../common/constants/permissions'
 import { AuthService } from './auth.service'
 
@@ -64,7 +64,8 @@ export class AuthGuard implements CanActivate {
 
     request.auth = {
       token,
-      user
+      user,
+      permissions: []
     }
 
     return true
@@ -75,7 +76,7 @@ export class AuthGuard implements CanActivate {
     requiredPermissions: Permission[]
   } {
     const requiredPermissions = this.reflector.getAllAndOverride<undefined | Permission[]>(
-      DecoratorToken.Protected,
+      DecoratorKey.Protected,
       [context.getHandler(), context.getClass()]
     )
 

@@ -1,3 +1,4 @@
-export enum DecoratorToken {
-  Protected = 'app/protected'
+export enum DecoratorKey {
+  Protected = 'app/protected',
+  Sanitize = 'app/sanitize'
 }

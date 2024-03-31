@@ -35,7 +35,8 @@ export class AuthController {
 
     return {
       token: result.token,
-      user: result.user
+      user: result.user,
+      permissions: result.permissions
     }
   }
 
@@ -54,7 +55,8 @@ export class AuthController {
 
     return {
       token: result.token,
-      user: result.user
+      user: result.user,
+      permissions: result.permissions
     }
   }
 }

@@ -6,13 +6,15 @@ import {
   NotImplementedException,
   Param,
   Post,
-  Put
+  Put,
+  Query
 } from '@nestjs/common'
 
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Permission } from '../../common/constants/permissions'
 import { Protected } from '../../common/decorators/protected.decorator'
 import { Product } from '../../entities/product.entity'
+import { ProductGetListRequestDto } from './product.controller.dto'
 import { ProductService } from './product.service'
 
 @ApiTags('Product')
@@ -23,7 +25,7 @@ export class ProductController {
   @Get('/')
   @ApiOperation({ summary: 'Get list of products' })
   @ApiResponse({ status: 200, description: 'List of products', type: [Product] })
-  public async getList(): Promise<Product[]> {
+  public async getList(@Query() query: ProductGetListRequestDto): Promise<Product[]> {
     return this.productService.getList()
   }
 

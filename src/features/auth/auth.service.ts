@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt'
 import assert from 'node:assert'
 
 import { Permission } from '../../common/constants/permissions'
-import { verifyPassword } from '../../common/utils/password'
+import { hashPassword, verifyPassword } from '../../common/utils/password'
 import { User } from '../../entities/user.entity'
 import { UserService } from '../users/user.service'
 
@@ -24,6 +24,7 @@ export interface IAuthLoginParams {
 export interface IAuthLoginResult {
   token: string
   user: User
+  permissions: Permission[]
 }
 
 export interface IAuthRegisterParams {
@@ -37,6 +38,7 @@ export interface IAuthRegisterParams {
 export interface IAuthRegisterResult {
   token: string
   user: User
+  permissions: Permission[]
 }
 
 @Injectable()
@@ -69,19 +71,13 @@ export class AuthService {
   }
 
   public async authorize(params: IAuthorizeParams): Promise<boolean> {
-    const userPermissions = new Set<Permission>()
+    const userPermissions = this.userService.getUserPermissions(params.user)
 
-    for (const userRole of params.user.roles) {
-      for (const permission of userRole.role.permissions) {
-        userPermissions.add(permission)
-      }
-    }
-
-    return params.requiredPermissions.every((permission) => userPermissions.has(permission))
+    return params.requiredPermissions.every((permission) => userPermissions.includes(permission))
   }
 
   public async login(params: IAuthLoginParams): Promise<IAuthLoginResult> {
-    const user = await this.userService.get({
+    let user = await this.userService.get({
       username: params.username
     })
 
@@ -95,13 +91,26 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials')
     }
 
+    // Update user with roles
+    user = await this.userService.get({
+      id: user.id,
+      opts: {
+        relations: {
+          roles: {
+            role: true
+          }
+        }
+      }
+    })
+
     const token = this.jwtService.sign({
-      id: user.id
+      id: user!.id
     })
 
     return {
       token,
-      user
+      user: user!,
+      permissions: this.userService.getUserPermissions(user!)
     }
   }
 
@@ -119,7 +128,7 @@ export class AuthService {
       lastName: params.lastName,
       phoneNumber: params.phoneNumber,
       username: params.username,
-      hashedPassword: params.password
+      hashedPassword: await hashPassword(params.password)
     })
 
     const token = this.jwtService.sign({
@@ -128,7 +137,8 @@ export class AuthService {
 
     return {
       token,
-      user
+      user,
+      permissions: []
     }
   }
 }

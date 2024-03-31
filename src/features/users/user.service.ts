@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DeepPartial, FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm'
 
+import { Permission } from '../../common/constants/permissions'
 import { User } from '../../entities/user.entity'
 
 interface IConditions {
@@ -97,6 +98,29 @@ export class UserService {
       items,
       total
     }
+  }
+
+  /**
+   * Get user permissions
+   * @param user - User
+   * @returns User permissions
+   */
+  public getUserPermissions(user: User): Permission[] {
+    const permissions: Permission[] = []
+
+    if (!user.roles) {
+      throw new Error('User roles are not loaded')
+    }
+
+    for (const userRole of user.roles) {
+      if (!userRole.role) {
+        throw new Error('Role is not loaded')
+      }
+
+      permissions.push(...userRole.role.permissions)
+    }
+
+    return permissions
   }
 
   /**

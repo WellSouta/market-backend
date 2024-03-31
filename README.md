@@ -24,9 +24,9 @@ my first project using nest.js
 - [x] Figure out how to make configurations and connection to the database;
 - [x] Figure out how to use TypeORM's CLI;
 - [x] Use class-transformer as [Interceptor](https://docs.nestjs.com/interceptors) to exclude private data/manipulate data on output;
-- [ ] Use class-transformer as [Pipe](https://docs.nestjs.com/pipes) for DTOs;
-- [ ] Use class-validator for input validation;
-- [ ] Somehow sanitize input data;
+- [x] Use class-transformer as [Pipe](https://docs.nestjs.com/pipes) for DTOs;
+- [x] Use class-validator for input validation;
+- [x] Somehow sanitize input data;
 - [ ] Handle exceptions using [Filters](https://docs.nestjs.com/exception-filters) and implement common interface for errors;
 - [ ] Think about separating **authentication part to [Middlewares](https://docs.nestjs.com/middleware)**, leaving **authorization** only in [Guards](https://docs.nestjs.com/guards);
 - [ ] Make `AppEnvironment` enum (production, staging, development, testing) and use it for different scenarious;

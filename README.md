@@ -28,6 +28,7 @@ my first project using nest.js
 - [ ] Use class-validator for input validation;
 - [ ] Somehow sanitize input data;
 - [ ] Handle exceptions using [Filters](https://docs.nestjs.com/exception-filters) and implement common interface for errors;
+- [ ] Think about separating **authentication part to [Middlewares](https://docs.nestjs.com/middleware)**, leaving **authorization** only in [Guards](https://docs.nestjs.com/guards);
 - [ ] Make `AppEnvironment` enum (production, staging, development, testing) and use it for different scenarious;
 - [ ] Implement pagination;
 - [ ] Figure out which fields I should index in database and optimize queries;

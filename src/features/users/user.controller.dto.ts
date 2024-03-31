@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsObject, IsString } from 'class-validator'
-import { UserPersonalField } from '../../../entities/fields/user-personal.field'
 
-export class CreateUserDto {
+import { UserPersonalField } from '../../entities/fields/user-personal.field'
+
+export class UserCreateRequestDto {
   @IsString()
   @ApiProperty({
     type: 'string',

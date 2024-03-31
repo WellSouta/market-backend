@@ -14,7 +14,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Permission } from '../../common/constants/permissions'
 import { Protected } from '../../common/decorators/protected.decorator'
 import { User } from '../../entities/user.entity'
-import { CreateUserDto } from './dtos/create-user.dto'
+import { UserCreateRequestDto } from './user.controller.dto'
 import { UserService } from './user.service'
 
 @ApiTags('User')
@@ -53,7 +53,7 @@ export class UserController {
   @Protected(Permission.UserCreate)
   @ApiOperation({ summary: 'Create new user' })
   @ApiResponse({ status: 200, description: 'User created', type: User })
-  public async create(@Body() body: CreateUserDto): Promise<User> {
+  public async create(@Body() body: UserCreateRequestDto): Promise<User> {
     throw new NotImplementedException()
   }
 

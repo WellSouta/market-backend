@@ -28,8 +28,8 @@ import { AuthService } from './auth.service'
       }
     })
   ],
-  exports: [AuthService],
   controllers: [AuthController],
-  providers: [AuthService, { provide: ProviderType.AppGuard, useClass: AuthGuard }]
+  providers: [AuthService, { provide: ProviderType.AppGuard, useClass: AuthGuard }],
+  exports: [AuthService]
 })
 export class AuthModule {}

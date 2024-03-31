@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common'
 
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { Permission } from '../../common/constants/users'
+import { Permission } from '../../common/constants/permissions'
 import { Protected } from '../../common/decorators/protected.decorator'
 import { Product } from '../../entities/product.entity'
 import { ProductService } from './product.service'
@@ -46,7 +46,7 @@ export class ProductController {
   @Post('/')
   @Protected(Permission.ProductCreate)
   @ApiOperation({ summary: 'Create new product' })
-  @ApiResponse({ status: 201, description: 'Product created', type: Product })
+  @ApiResponse({ status: 200, description: 'Product created', type: Product })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   public async create(): Promise<Product> {
     throw new NotImplementedException()
@@ -55,8 +55,7 @@ export class ProductController {
   @Put('/:id')
   @Protected(Permission.ProductEdit)
   @ApiOperation({ summary: 'Update product' })
-  @ApiResponse({ status: 200, description: 'Product updated', type: Product })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 204, description: 'Product updated' })
   @ApiResponse({ status: 404, description: 'Product not found' })
   public async update(@Param('id') id: string): Promise<void> {
     throw new NotImplementedException()
@@ -66,7 +65,6 @@ export class ProductController {
   @Protected(Permission.ProductDelete)
   @ApiOperation({ summary: 'Delete product' })
   @ApiResponse({ status: 204, description: 'Product deleted' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Product not found' })
   public async delete(@Param('id') id: string): Promise<void> {
     throw new NotImplementedException()

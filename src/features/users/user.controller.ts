@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 
-import { Permission } from '../../common/constants/users'
+import { Permission } from '../../common/constants/permissions'
 import { Protected } from '../../common/decorators/protected.decorator'
 import { User } from '../../entities/user.entity'
 import { CreateUserDto } from './dtos/create-user.dto'
@@ -52,8 +52,7 @@ export class UserController {
   @Post('/')
   @Protected(Permission.UserCreate)
   @ApiOperation({ summary: 'Create new user' })
-  @ApiResponse({ status: 201, description: 'User created', type: User })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 200, description: 'User created', type: User })
   public async create(@Body() body: CreateUserDto): Promise<User> {
     throw new NotImplementedException()
   }
@@ -62,7 +61,6 @@ export class UserController {
   @Protected(Permission.UserEdit)
   @ApiOperation({ summary: 'Update user by id' })
   @ApiResponse({ status: 204, description: 'User updated' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   public async update(@Param('id') id: string): Promise<void> {
     throw new NotImplementedException()
@@ -72,7 +70,6 @@ export class UserController {
   @Protected(Permission.UserDelete)
   @ApiOperation({ summary: 'Delete user by id' })
   @ApiResponse({ status: 204, description: 'User deleted' })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'User not found' })
   public async delete(@Param('id') id: string): Promise<void> {
     throw new NotImplementedException()

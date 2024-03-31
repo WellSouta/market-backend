@@ -3,6 +3,7 @@ import { Exclude } from 'class-transformer'
 import { Column, Entity, OneToMany } from 'typeorm'
 import { EntityBase } from './common/entity-base'
 import { UserPersonalField } from './fields/user-personal.field'
+import { UserFavorite } from './user-favorite.entity'
 import { UserRole } from './user-role.entity'
 
 @Entity('users')
@@ -40,4 +41,11 @@ export class User extends EntityBase {
   })
   @OneToMany(() => UserRole, (role) => role.user)
   public roles!: UserRole[]
+
+  @ApiProperty({
+    type: () => [UserFavorite],
+    description: 'User favorites'
+  })
+  @OneToMany(() => UserFavorite, (favorite) => favorite.user)
+  public favorites!: UserFavorite[]
 }

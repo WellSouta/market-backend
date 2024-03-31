@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import assert from 'node:assert'
 
-import { Permission } from '../../common/constants/users'
+import { Permission } from '../../common/constants/permissions'
+import { verifyPassword } from '../../common/utils/password'
 import { User } from '../../entities/user.entity'
 import { UserService } from '../users/user.service'
 
@@ -13,6 +14,29 @@ export interface IAuthenticateParams {
 export interface IAuthorizeParams {
   user: User
   requiredPermissions: Permission[]
+}
+
+export interface IAuthLoginParams {
+  username: string
+  password: string
+}
+
+export interface IAuthLoginResult {
+  token: string
+  user: User
+}
+
+export interface IAuthRegisterParams {
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  username: string
+  password: string
+}
+
+export interface IAuthRegisterResult {
+  token: string
+  user: User
 }
 
 @Injectable()
@@ -45,26 +69,66 @@ export class AuthService {
   }
 
   public async authorize(params: IAuthorizeParams): Promise<boolean> {
-    const userPermissions = params.user.roles.reduce((acc, role) => {
-      for (const permission of role.role.permissions) {
-        acc.add(permission)
-      }
+    const userPermissions = new Set<Permission>()
 
-      return acc
-    }, new Set<Permission>())
+    for (const userRole of params.user.roles) {
+      for (const permission of userRole.role.permissions) {
+        userPermissions.add(permission)
+      }
+    }
 
     return params.requiredPermissions.every((permission) => userPermissions.has(permission))
   }
 
-  public async register() {
-    //
+  public async login(params: IAuthLoginParams): Promise<IAuthLoginResult> {
+    const user = await this.userService.get({
+      username: params.username
+    })
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials')
+    }
+
+    const isPasswordValid = await verifyPassword(params.password, user.password)
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials')
+    }
+
+    const token = this.jwtService.sign({
+      id: user.id
+    })
+
+    return {
+      token,
+      user
+    }
   }
 
-  public async signIn() {
-    //
-  }
+  public async register(params: IAuthRegisterParams): Promise<IAuthRegisterResult> {
+    const isUserExists = await this.userService.exists({
+      username: params.username
+    })
 
-  public async signOut() {
-    //
+    if (isUserExists) {
+      throw new UnauthorizedException('User already exists')
+    }
+
+    const user = await this.userService.create({
+      firstName: params.firstName,
+      lastName: params.lastName,
+      phoneNumber: params.phoneNumber,
+      username: params.username,
+      hashedPassword: params.password
+    })
+
+    const token = this.jwtService.sign({
+      id: user.id
+    })
+
+    return {
+      token,
+      user
+    }
   }
 }

@@ -30,7 +30,7 @@ export class ProductService {
     return this.repo
   }
 
-  public async get(params: IGetProductParams = {}): Promise<Product | void> {
+  public async get(params: IGetProductParams = {}): Promise<Product | undefined> {
     const item = await this.repo.findOne({
       where: this.makeConditions(params),
       ...params.opts

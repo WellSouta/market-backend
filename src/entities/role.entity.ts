@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, OneToMany } from 'typeorm'
-import { Permission } from '../common/constants/users'
+import { Permission } from '../common/constants/permissions'
 import { EntityBase } from './common/entity-base'
 import { MultiLanguageField } from './fields/multi-language.field'
 import { UserRole } from './user-role.entity'

@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common'
 
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { Permission } from '../../common/constants/users'
+import { Permission } from '../../common/constants/permissions'
 import { Protected } from '../../common/decorators/protected.decorator'
 import { Category } from '../../entities/category.entity'
 import { CategoryService } from './category.service'
@@ -46,8 +46,7 @@ export class CategoryController {
   @Post('/')
   @Protected(Permission.CategoryCreate)
   @ApiOperation({ summary: 'Create new category' })
-  @ApiResponse({ status: 201, description: 'Category created', type: Category })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 200, description: 'Category created', type: Category })
   @ApiResponse({ status: 404, description: 'Category not found' })
   public async create(): Promise<Category> {
     throw new NotImplementedException()
@@ -56,8 +55,7 @@ export class CategoryController {
   @Put('/:id')
   @Protected(Permission.CategoryEdit)
   @ApiOperation({ summary: 'Update category' })
-  @ApiResponse({ status: 200, description: 'Category updated', type: Category })
-  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 204, description: 'Category updated' })
   @ApiResponse({ status: 404, description: 'Category not found' })
   public async update(@Param('id') id: string): Promise<void> {
     throw new NotImplementedException()

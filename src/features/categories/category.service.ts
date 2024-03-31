@@ -30,7 +30,7 @@ export class CategoryService {
     return this.repo
   }
 
-  public async get(params: IGetCategoryParams = {}): Promise<Category | void> {
+  public async get(params: IGetCategoryParams = {}): Promise<Category | undefined> {
     const item = await this.repo.findOne({
       where: this.makeConditions(params),
       ...params.opts

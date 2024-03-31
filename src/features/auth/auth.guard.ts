@@ -8,10 +8,10 @@ import {
 import { Reflector } from '@nestjs/core'
 
 import { DecoratorToken } from '../../common/constants/decorators'
-import { Permission } from '../../common/constants/users'
+import { Permission } from '../../common/constants/permissions'
 import { AuthService } from './auth.service'
 
-import type { Request } from 'express'
+import { IAppRequest } from '../../common/interfaces/app-request.interface'
 import { User } from '../../entities/user.entity'
 
 @Injectable()
@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const request =
-      context.getType() === 'http' ? context.switchToHttp().getRequest<Request>() : undefined
+      context.getType() === 'http' ? context.switchToHttp().getRequest<IAppRequest>() : undefined
 
     if (!request) {
       throw new Error('Unsupported context type')
@@ -62,9 +62,10 @@ export class AuthGuard implements CanActivate {
       }
     }
 
-    // TODO: modify Request type to include a user property in a future
-    // @ts-expect-error - see TODO
-    request['user'] = user
+    request.auth = {
+      token,
+      user
+    }
 
     return true
   }
@@ -91,7 +92,7 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
+  private extractTokenFromHeader(request: IAppRequest): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? []
     return type === 'Bearer' ? token : undefined
   }

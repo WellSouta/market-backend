@@ -27,7 +27,7 @@ async function setupSwagger(app: INestApplication) {
   const config = new DocumentBuilder()
     .setTitle('Marketplace')
     .setVersion('0.1')
-    .setLicense('COMMERCIAL', '')
+    .setLicense('MIT', 'https://opensource.org/license/mit')
     .addBearerAuth({
       type: 'http',
       name: 'Authorization',
